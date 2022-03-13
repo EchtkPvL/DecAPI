@@ -1062,7 +1062,7 @@ class TwitchController extends Controller
     {
         $user_id = $user_id ?? $request->input('user_id', null);
 
-        if (empty($user)) {
+        if (empty($user_id)) {
             return Helper::text(__('generic.username_required'));
         }
 
@@ -1071,7 +1071,7 @@ class TwitchController extends Controller
         }
         catch (TwitchApiException $ex)
         {
-            return Helper::text('Invalid Twitch username specified: ' . $user, 400);
+            return Helper::text('Invalid Twitch username specified: ' . $user_id, 400);
         }
 
         if (empty($data)) {
