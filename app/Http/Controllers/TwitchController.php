@@ -1064,6 +1064,7 @@ class TwitchController extends Controller
 
         if (empty($user_id)) {
             return Helper::text(__('generic.userid_required'));
+            return Helper::text('Twitch userid required.');
         }
 
         try {
@@ -1075,9 +1076,7 @@ class TwitchController extends Controller
         }
 
         if (empty($data)) {
-            return Helper::text(__('twitch.user_not_found', [
-                'user_id' => $user_id,
-            ]));
+            return Helper::text('User not found: ' . $user_id);
         }
 
         return Helper::text($data['login']);
