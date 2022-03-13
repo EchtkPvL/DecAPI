@@ -174,6 +174,7 @@ class TwitchController extends Controller
             'team_members' => 'team_members/{TEAM_ID}',
             'total_views' => 'total_views/{CHANNEL}',
             'uptime' => 'uptime/{CHANNEL}',
+            'username' => 'username/{USER_ID}',
             'viewercount' => 'viewercount/{CHANNEL}',
             'videos' => 'videos/{CHANNEL}',
             'vod_replay' => 'vod_replay/{CHANNEL}',
@@ -1047,6 +1048,39 @@ class TwitchController extends Controller
         }
 
         return Helper::text($data['id']);
+    }
+
+
+    /**
+     * Returns the user's login.
+     *
+     * @param  Request $request
+     * @param  string/int  $user_id    ID of user
+     * @return Response
+     */
+    public function username(Request $request, $user_id = null)
+    {
+        $user_id = $user_id ?? $request->input('user_id', null);
+
+        if (empty($user)) {
+            return Helper::text(__('generic.username_required'));
+        }
+
+        try {
+            $data = $this->api->userById($user_id);
+        }
+        catch (TwitchApiException $ex)
+        {
+            return Helper::text('Invalid Twitch username specified: ' . $user, 400);
+        }
+
+        if (empty($data)) {
+            return Helper::text(__('twitch.user_not_found', [
+                'user_id' => $user_id,
+            ]));
+        }
+
+        return Helper::text($data['login']);
     }
 
     /**
