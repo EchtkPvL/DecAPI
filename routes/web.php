@@ -213,7 +213,7 @@ Route::group(['prefix' => 'twitch', 'as' => 'twitch.', 'middleware' => ['ratelim
         ->where('channel', $channelRegex);
 
     Route::get('username/{user_id?}', 'TwitchController@username')
-        ->where('channel', '([0-9]{1,})');
+        ->where('user_id', '([1-9][0-9]*)');
 
     Route::get('viewercount/{channel?}', 'TwitchController@viewercount')
         ->where('channel', $channelRegex);
